@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.emas.demo"
+          android:versionCode="1"
+          android:versionName="1">
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="26"/>
+
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_ADDED"/>
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_CHANGED"/>
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_INSTALL"/>
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED"/>
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <application
+        android:name="com.taobao.demo.DemoApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/app_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        tools:replace="android:name,android:allowBackup,android:theme">
+        <meta-data
+            android:name="com.alibaba.app.appkey"
+            android:value="24873917"/> <!-- 请填写你自己的- appKey -->
+        <meta-data
+            android:name="com.alibaba.app.appsecret"
+            android:value="3972086eac435b0327764575552b197c"/> <!-- 请填写你自己的appSecret -->
+
+        <activity
+            android:name="com.taobao.demo.WelcomActivity"
+            android:label="EMASDemo"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.taobao.demo.HAActivity"
+            android:label="HADemo"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.taobao.demo.mtop.MtopActivity"
+            android:label="MtopDemo"/>
+        <activity
+            android:name="com.taobao.demo.accs.AccsActivity"
+            android:label="AccsDemo"/>
+        <activity
+            android:name="com.taobao.demo.accs.ConfigActivity"
+            android:label="AccsDemo"/>
+        <activity android:name="com.taobao.demo.update.MainScanActivity"/>
+        <activity android:name="com.taobao.demo.man.BaseActivity"/>
+
+        <!-- HA SDK START -->
+        <service
+            android:name="com.taobao.accs.data.MsgDistributeService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.RECEIVE"/>
+            </intent-filter>
+        </service>
+        <!-- HA SDK END -->
+
+
+        <!-- UPDATE SDK START -->
+        <service
+            android:name="anetwork.channel.aidl.NetworkService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="anetwork.channel.aidl.IRemoteNetworkGetter"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="mtopsdk.xstate.XStateService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="mtopsdk.xstate.aidl.IXState"/>
+            </intent-filter>
+        </service>
+
+        <!-- UPDATE SDK END -->
+
+
+        <!-- PUSH SDK START -->
+        <!-- 消息接收监听器 （用户可自主扩展） -->
+        <receiver
+            android:name="com.taobao.demo.push.MyMessageReceiver"
+            android:exported="false">
+            <intent-filter>
+                 
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED"/>
+            </intent-filter>
+            <intent-filter>
+                     
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_REMOVED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.alibaba.sdk.android.push.RECEIVE"/>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.taobao.demo.push.MyMessageIntentService"
+            android:exported="false">
+            <intent-filter>
+                 
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED"/>
+            </intent-filter>
+            <intent-filter>
+                     
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_REMOVED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.alibaba.sdk.android.push.RECEIVE"/>
+            </intent-filter>
+        </service>
+        <!-- PUSH SDK END -->
+
+
+        <!-- accs测试服务 -->
+        <service android:name="com.taobao.demo.accs.TestAccsService">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.RECEIVE"/>
+            </intent-filter>
+        </service>
+
+        <!-- accs start -->
+        <service
+            android:name="com.taobao.accs.ChannelService"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.SERVICE"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.taobao.accs.ChannelService$KernelService"
+            android:exported="false"
+            android:process=":channel"/>
+        <service
+            android:name="com.taobao.accs.data.MsgDistributeService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.RECEIVE"/>
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.taobao.accs.EventReceiver"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+
+                <data android:scheme="package"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.taobao.accs.ServiceReceiver"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.COMMAND"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.START_FROM_AGOO"/>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.taobao.accs.internal.AccsJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":channel"/>
+        <!-- accs end -->
+
+        <activity android:name="com.taobao.demo.orange.ui.ConfigActivity"/>
+        <activity
+            android:name="com.taobao.demo.orange.ui.CandidateActivity"
+            android:label="自定义条件"
+            android:parentActivityName="com.taobao.demo.orange.ui.ConfigActivity"/>
+        <activity
+            android:name="com.taobao.demo.orange.ui.DebugActivity"
+            android:parentActivityName="com.taobao.demo.orange.ui.ConfigActivity"/>
+        <activity
+            android:name="com.taobao.demo.orange.ui.DemoActivity"
+            android:parentActivityName="com.taobao.demo.orange.ui.ConfigActivity"/>
+        <activity
+            android:name="com.taobao.demo.orange.ui.FeatureActivity"
+            android:parentActivityName="com.taobao.demo.orange.ui.DemoActivity"/>
+
+        <!-- CONFIG SDK START -->
+        <service
+            android:name="com.taobao.orange.service.OrangeApiService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.taobao.orange.service.OrangeApiService"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.taobao.orange.accssupport.OrangeAccsService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.RECEIVE"/>
+            </intent-filter>
+        </service>
+        <!-- CONFIG SDK END -->
+        <activity android:name="com.taobao.demo.man.TestPageActivity">
+        </activity>
+        <activity android:name="com.taobao.demo.man.MANActivity">
+        </activity>
+    </application>
+
+</manifest>
